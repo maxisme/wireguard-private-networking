@@ -1,6 +1,6 @@
 # Private server to server network with ansible and wireguard 
  
-[![Ansible Role](https://img.shields.io/ansible/role/d/33136)](https://galaxy.ansible.com/mawalu/wireguard_private_networking)
+[![Ansible Role](https://img.shields.io/ansible/role/d/33136)](https://galaxy.ansible.com/maxisme/wireguard_private_networking)
  
 This role allowes you to deploy a fast, secure and provider agnostic private network between multiple servers. This is usefull for providers that do not provide you with a private network or if you want to connect servers that are spread over multiple regions and providers.
 
@@ -10,10 +10,10 @@ The role installs [wireguard](https://wireguard.com) on Debian or Ubuntu, create
 
 ## Installation
 
-Installation can be done using [ansible galaxy](https://galaxy.ansible.com/mawalu/wireguard_private_networking):
+Installation can be done using [ansible galaxy](https://galaxy.ansible.com/maxisme/wireguard_private_networking):
 
 ```
-$ ansible-galaxy install mawalu.wireguard_private_networking
+$ ansible-galaxy install maxisme.wireguard_private_networking
 ```
 
 ## Setup
@@ -39,7 +39,7 @@ wireguard:
   hosts: wireguard
   remote_user: root
   roles:
-    - mawalu.wireguard_private_networking
+    - maxisme.wireguard_private_networking
 ```
 
 ```yaml
@@ -51,7 +51,7 @@ wireguard:
     client_vpn_ip: 10.1.0.100
     client_wireguard_path: "~/my-client-config.conf"
   roles:
-    - mawalu.wireguard_private_networking
+    - maxisme.wireguard_private_networking
 ```
 
 ## Additional configuration

@@ -9,7 +9,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Molecule test
-        uses: mawalu/molecule-action@master
+        uses: robertdebock/molecule-action@1.2.4
 
       - name: Upload to galaxy
         uses: robertdebock/galaxy-action@1.0.3
