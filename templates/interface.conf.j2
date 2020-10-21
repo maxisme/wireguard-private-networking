@@ -22,11 +22,6 @@ Endpoint = {{ hostvars[node]['ansible_host'] | default(hostvars[node]['inventory
 {% endif %}
 {% endfor %}
 
-{% if client_vpn_ip | length > 0 %}
-[Peer]
-PublicKey = {{ client_publickey.content | b64decode | trim }}
-AllowedIPs = {{ client_vpn_ip }}
-{% endif %}
 
 {% if wireguard_additional_peers  %}
 {% for node in wireguard_additional_peers %}
