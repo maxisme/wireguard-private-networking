@@ -12,6 +12,6 @@
         name: "wireguard-private-networking"
   vars:
     - ansible_python_interpreter: /usr/bin/python3
-    - vpn_ip: "10.10.10.1/32"
+    - wg_ip: "10.10.10.1/32"
   vars_files:
     - testvars.yml

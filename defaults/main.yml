@@ -2,7 +2,9 @@
 wireguard_port: "5888"
 wireguard_path: "/etc/wireguard"
 
-wireguard_network_name: "private"
+PersistentKeepalive: "25"
+
+wireguard_network_name: "wg"
 
 debian_enable_backports: true
 debian_pin_packages: true

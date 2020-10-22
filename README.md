@@ -18,7 +18,7 @@ $ ansible-galaxy install maxisme.wireguard_private_networking
 
 ## Setup
 
-Install this role, assign a `vpn_ip` variable to every host that should be part of the network and run the role. Plese make sure to allow the VPN port (default is 5888) in your firewall. Here is a small example configuration:
+Install this role, assign a `wg_ip` variable to every host that should be part of the network and run the role. Plese make sure to allow the VPN port (default is 5888) in your firewall. Here is a small example configuration:
 
 ```yaml
 # inventory host file
@@ -26,9 +26,9 @@ Install this role, assign a `vpn_ip` variable to every host that should be part 
 wireguard:
   hosts:
     1.1.1.1:
-      vpn_ip: 10.1.0.1/32
+      wg_ip: 10.1.0.1
     2.2.2.2:
-      vpn_ip: 10.1.0.2/32
+      wg_ip: 10.1.0.2
 
 ```
 
@@ -40,37 +40,6 @@ wireguard:
   remote_user: root
   roles:
     - maxisme.wireguard_private_networking
-```
-
-
-
-## Additional configuration
-
-There are a small number of role variables that can be overwritten.
-
-```yaml
-wireguard_port: "5888" # the port to use for server to server connections
-wireguard_path: "/etc/wireguard" # location of all wireguard configurations
-
-wireguard_network_name: "private" # the name to use for the config file and wg-quick
-
-wireguard_mtu: 1500 # Optionally a MTU to set in the wg-quick file. Not set by default. Can also be set per host
-
-debian_enable_backports: true # if the debian backports repos should be added on debian machines
-
-# a list of additional peers that will be added to each server
-wireguard_additional_peers:
-  - comment: martin
-    ip: 10.2.3.4
-    key: your_wireguard_public_key
-  - comment: other_network
-    ip: 10.32.0.0/16
-    key: their_wireguard_public_key
-    keepalive: 20 
-    endpoint: some.endpoint:2230 
-
-wireguard_post_up: "iptables ..." # PostUp hook command
-wireguard_post_down: "iptables"   # PostDown hook command
 ```
 
 ## Testing
