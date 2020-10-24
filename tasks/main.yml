@@ -126,6 +126,26 @@
     group: root
     mode: "u=rw,g=r,o="
   register: config
-  notify:
-    - Enable wg-quick service
-    - Restart wg-quick service
+
+- name: Enable wg-quick service
+  service:
+    name: "wg-quick@{{ wireguard_network_name }}"
+    enabled: yes
+
+- name: Restart wg-quick service
+  service:
+    name: "wg-quick@{{ wireguard_network_name }}"
+    state: restarted
+  when: config.changed
+
+- name: Generate script to verify wireguard connections
+  template:
+    src: ping-test.j2
+    dest: "/tmp/ping-test.sh"
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o="
+
+- name: Run script to verify wireguard connections
+  command: sh /tmp/ping-test.sh
+  remote_user: root

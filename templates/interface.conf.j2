@@ -19,7 +19,7 @@ MTU = {{ wireguard_mtu }}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
 {% if hostvars[node].wg_ip %}
-AllowedIPs = {{ hostvars[node].wg_ip }}
+AllowedIPs = {{ hostvars[node].wg_ip }}/32
 {% endif %}
 {% if hostvars[node]['ansible_host'] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
@@ -34,7 +34,7 @@ PersistentKeepalive = {{ PersistentKeepalive }}
 # {{ node.comment  }}
 [Peer]
 PublicKey = {{ node.key }}
-AllowedIPs = {{ node.ip }}
+AllowedIPs = {{ node.ip }}/32
 {% if node.endpoint is defined %}
 Endpoint = {{ node.endpoint }}
 {% endif %}
