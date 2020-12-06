@@ -9,7 +9,7 @@ PostUp = {{ wireguard_post_up }}
 {% if wireguard_post_down %}
 PostDown = {{ wireguard_post_down }}
 {% endif %}
-{% if not "192.168" in ansible_host %}
+{% if ansible_host and not "192.168" in ansible_host %}
 ListenPort = {{ wireguard_port }}
 {% endif %}
 {% if wireguard_mtu is defined %}
@@ -21,7 +21,7 @@ MTU = {{ wireguard_mtu }}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
 AllowedIPs = {{ hostvars[node].wg_ip }}/32
-{% if hostvars[node]['ansible_host'] and not "192.168" in hostvars[node]['ansible_host'] %}
+{% if 'ansible_host' in hostvars[node] and not "192.168" in hostvars[node]['ansible_host'] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
 {% endif %}
 PersistentKeepalive = {{ PersistentKeepalive }}
