@@ -2,9 +2,9 @@
 {% for node in play_hosts %}
 {% if inventory_hostname != hostvars[node]['inventory_hostname'] %}
 
-{% if not ('ansible_host' in hostvars[node] and "192.168" in hostvars[node]['ansible_host'] and ansible_host and "192.168" in ansible_host) %}
+{% if not (('ansible_host' in hostvars[node] and "192.168" in hostvars[node]['ansible_host'] or 'ansible_connection' in hostvars[node]) and (ansible_host and "192.168" in ansible_host or ansible_connection)) %}
 
-ping -c 3 {{ hostvars[node].wg_ip }}
+ping -c 1 {{ hostvars[node].wg_ip }}
 if [ $? -ne  0 ]; then
     echo "problem connecting to ip: {{ hostvars[node].wg_ip }} ({{ hostvars[node]['inventory_hostname'] }}) from {{ inventory_hostname }}"
     exit 1
