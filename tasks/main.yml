@@ -127,6 +127,13 @@
     mode: "u=rw,g=r,o="
   register: config
 
+- ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
 - name: Enable wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"

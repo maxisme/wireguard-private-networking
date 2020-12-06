@@ -11,6 +11,8 @@ PostDown = {{ wireguard_post_down }}
 {% endif %}
 {% if ansible_host and not "192.168" in ansible_host %}
 ListenPort = {{ wireguard_port }}
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wireguard_network_name }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ wireguard_network_name }} -j MASQUERADE
 {% endif %}
 {% if wireguard_mtu is defined %}
 MTU = {{ wireguard_mtu }}
