@@ -137,13 +137,14 @@
     mode: "u=rw,g=r,o="
   register: config
 
-- ansible.posix.sysctl:
+- name: enable port forwarding
+  ansible.posix.sysctl:
     name: "net.ipv4.conf.{{ wireguard_network_name }}.forwarding"
     value: '1'
     sysctl_set: yes
     state: present
     reload: yes
-    when: wg_router is defined
+  when: wg_router is defined
 
 - name: Enable wg-quick service
   service:
