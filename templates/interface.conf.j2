@@ -1,7 +1,7 @@
 [Interface]
 Address = {{ wg_ip }}/32
 PrivateKey = {{ private.content | b64decode | trim }}
-{% if not private_net %}
+{% if private_net is not defined %}
 ListenPort = {{ wireguard_port }}
 {% endif %}
 
