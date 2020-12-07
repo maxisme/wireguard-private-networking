@@ -1,29 +1,16 @@
 [Interface]
-{% if wg_ip %}
 Address = {{ wg_ip }}/32
-{% endif %}
 PrivateKey = {{ private.content | b64decode | trim }}
-{% if wireguard_post_up %}
-PostUp = {{ wireguard_post_up }}
-{% endif %}
-{% if wireguard_post_down %}
-PostDown = {{ wireguard_post_down }}
-{% endif %}
-{% if ansible_host and not "192.168" in ansible_host %}
+{% if 'private_net' not in hostvars[node] %}
 ListenPort = {{ wireguard_port }}
-PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wireguard_network_name }} -j MASQUERADE
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ wireguard_network_name }} -j MASQUERADE
-{% endif %}
-{% if wireguard_mtu is defined %}
-MTU = {{ wireguard_mtu }}
 {% endif %}
 
 {% for node in play_hosts %}
 {% if inventory_hostname != hostvars[node]['inventory_hostname'] %}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
-AllowedIPs = {{ hostvars[node].wg_ip }}/32
-{% if 'ansible_host' in hostvars[node] and not "192.168" in hostvars[node]['ansible_host'] %}
+AllowedIPs = {{ hostvars[node].wg_ip }}/32{% if 'private_ips' in hostvars[node] %},{{ hostvars[node]['private_ips']}}{% endif %}
+{% if 'private_net' not in hostvars[node] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
 {% endif %}
 PersistentKeepalive = {{ PersistentKeepalive }}

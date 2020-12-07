@@ -32,6 +32,16 @@
   when:
     - ansible_distribution == "Archlinux"
 
+- name: Set whether host is private
+  set_fact:
+    private_net: True
+  when: (ansible_host and '192.168' in ansible_host) or ansible_connection == "local"
+
+- name: Set whether host is private
+  set_fact:
+    private_ips: "{{ lookup('template', './private_ips.j2') }}"
+  when: wg_router
+
 - name: Install wireguard (CentOS 8)
   block:
     - name: Install epel repo (CentOS 8)
@@ -128,11 +138,12 @@
   register: config
 
 - ansible.posix.sysctl:
-    name: net.ipv4.ip_forward
+    name: "net.ipv4.conf.{{ wireguard_network_name }}.forwarding"
     value: '1'
     sysctl_set: yes
     state: present
     reload: yes
+    when: wg_router
 
 - name: Enable wg-quick service
   service:
