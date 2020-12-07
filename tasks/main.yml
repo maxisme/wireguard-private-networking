@@ -40,7 +40,7 @@
 - name: Set whether host is private
   set_fact:
     private_ips: "{{ lookup('template', './private_ips.j2') }}"
-  when: wg_router
+  when: wg_router is defined
 
 - name: Install wireguard (CentOS 8)
   block:
@@ -143,7 +143,7 @@
     sysctl_set: yes
     state: present
     reload: yes
-    when: wg_router
+    when: wg_router is defined
 
 - name: Enable wg-quick service
   service:
