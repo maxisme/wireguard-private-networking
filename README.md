@@ -40,11 +40,14 @@ wireguard:
   remote_user: root
   roles:
     - maxisme.wireguard_private_networking
+  vars:
+    wireguard_network_name: "maxnet"
 ```
 
 add additional peers:
 ```
-wireguard_additional_peers:
-  - wg_ip: 10.2.3.4
-    key: your_wireguard_public_key
+vars:
+    wireguard_additional_peers:
+      - wg_ip: 10.2.3.4
+        key: your_wireguard_public_key
 ```
