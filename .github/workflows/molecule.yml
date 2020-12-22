@@ -14,9 +14,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
 
-      - name: Molecule test
-        uses: robertdebock/molecule-action@1.2.4
-
       - name: Upload to galaxy
         uses: robertdebock/galaxy-action@1.0.3
         with:

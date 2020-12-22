@@ -20,3 +20,15 @@ PersistentKeepalive = {{ PersistentKeepalive }}
 {% endif %}
 
 {% endfor %}
+
+{% if wg_router %}
+{% if wireguard_additional_peers  %}
+{% for node in wireguard_additional_peers %}
+[Peer]
+PublicKey = {{ node.key }}
+AllowedIPs = {{ node.wg_ip }}
+PersistentKeepalive = {{ PersistentKeepalive }}
+
+{% endfor %}
+{% endif %}
+{% endif %}

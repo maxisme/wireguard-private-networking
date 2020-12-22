@@ -42,11 +42,9 @@ wireguard:
     - maxisme.wireguard_private_networking
 ```
 
-## Testing
-
-This role has a small test setup that is created using [molecule](https://github.com/ansible-community/molecule). To run the tests follow the molecule [install guide](https://molecule.readthedocs.io/en/latest/installation.html), ensure that a docker daemon runs on your machine and execute `molecule test`.
-
-## Contributing
-
-Feel free to open issues or MRs if you find problems or have ideas for improvements. I'm especially open for MRs that add support for additional operating systems and more tests.
-
+add additional peers:
+```
+wireguard_additional_peers:
+  - wg_ip: 10.2.3.4
+    key: your_wireguard_public_key
+```
