@@ -21,7 +21,7 @@ PersistentKeepalive = {{ PersistentKeepalive }}
 
 {% endfor %}
 
-{% if wg_router %}
+{% if wg_router is defined %}
 {% if wireguard_additional_peers  %}
 {% for node in wireguard_additional_peers %}
 [Peer]
