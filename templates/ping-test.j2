@@ -3,8 +3,9 @@ failed=0
 {% for node in play_hosts %}
 {% if inventory_hostname != hostvars[node]['inventory_hostname'] %}
 
-ping -c 1 {{ wireguard_base_host }}{{ hostvars[node].wg_num }}
+ping {{ wireguard_base_host }}{{ hostvars[node].wg_num }} -w1 -c1 -q > /dev/null 2>&1
 if [ $? -ne  0 ]; then
+    echo "FAILED: {{ inventory_hostname }} -> {{ hostvars[node]['inventory_hostname'] }} -> {{ wireguard_base_host }}{{ hostvars[node].wg_num }}"
     failed=1
 fi
 
