@@ -4,6 +4,3 @@
 {% if 'private_net' in hostvars[node] %}{{ comma() }}{{ hostvars[node].wg_ip }}/32{% endif %}
 {% endif %}
 {%- endfor %}
-{%- if wireguard_additional_peers -%}
-{% for node in wireguard_additional_peers -%}{{ comma() }}{{ node.wg_ip }}/32{%- endfor %}
-{% endif %}
