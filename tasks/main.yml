@@ -144,17 +144,17 @@
 - name: Start wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
-    state: start
+    state: started
 
 - name: Stop wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
-    state: stop
+    state: stopped
 
 - name: Start wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
-    state: start
+    state: started
 
 - name: Enable port forwarding
   ansible.posix.sysctl:
