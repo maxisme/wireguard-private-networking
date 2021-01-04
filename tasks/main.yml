@@ -140,16 +140,19 @@
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
     enabled: yes
+  ignore_errors: yes
 
 - name: Start wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
     state: started
+  ignore_errors: yes
 
 - name: Stop wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
     state: stopped
+  ignore_errors: yes
 
 - name: Start wg-quick service
   service:
