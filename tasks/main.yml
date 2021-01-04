@@ -37,10 +37,9 @@
     private_net: True
   when: (ansible_host and '192.168' in ansible_host) or ansible_connection == "local"
 
-- name: Set whether host is private
+- name: Get Private ips (local networks)
   set_fact:
     private_ips: "{{ lookup('template', './private_ips.j2') }}"
-  when: (ansible_host and '192.168' in ansible_host) or ansible_connection == "local"
 
 - name: Install wireguard (CentOS 8)
   block:
@@ -142,10 +141,20 @@
     name: "wg-quick@{{ wireguard_network_name }}"
     enabled: yes
 
-- name: Restart wg-quick service
+- name: Start wg-quick service
   service:
     name: "wg-quick@{{ wireguard_network_name }}"
-    state: restarted
+    state: start
+
+- name: Stop wg-quick service
+  service:
+    name: "wg-quick@{{ wireguard_network_name }}"
+    state: stop
+
+- name: Start wg-quick service
+  service:
+    name: "wg-quick@{{ wireguard_network_name }}"
+    state: start
 
 - name: Enable port forwarding
   ansible.posix.sysctl:
