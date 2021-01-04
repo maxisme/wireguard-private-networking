@@ -39,6 +39,7 @@
 - name: Get Private ips (local networks)
   set_fact:
     private_ips: "{{ lookup('template', './private_ips.j2') }}"
+  when: (ansible_host and '192.168' in ansible_host) or ansible_connection == "local"
 
 - name: Install wireguard (CentOS 8)
   block:
