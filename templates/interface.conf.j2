@@ -7,11 +7,13 @@ ListenPort = {{ wireguard_port }}
 
 {% for node in play_hosts %}
 {% if inventory_hostname != hostvars[node]['inventory_hostname'] %}
-{% if not (private_net is defined and 'private_net' in hostvars[node]) %}
+
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
+{% if not (private_net is defined and 'private_net' in hostvars[node]) %}
 {% set comma = joiner(",") %}
-AllowedIPs = {{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ wireguard_base_host }}{{ node.wg_num }}/32{%- endfor %}{% endif %}{% endif %}
+AllowedIPs = {{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ wireguard_base_host }}{{ node.wg_num }}/32{%- endfor %}{% endif %}
+{% endif %}
 
 {% if 'private_net' not in hostvars[node] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
