@@ -10,7 +10,7 @@ ListenPort = {{ wireguard_port }}
 {% if not (private_net is defined and 'private_net' in hostvars[node]) %}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
-AllowedIPs = {{ hostvars[node].wg_ip }}/32{% if 'private_ips' in hostvars[node] %},{{ hostvars[node]['private_ips']}}{% endif %}
+AllowedIPs = {{ hostvars[node].wg_ip }}/32{% if 'wg_router' in hostvars[node] %}{% if 'private_ips' in hostvars[node] %},{{ hostvars[node]['private_ips']}}{% endif %}{% endif %}
 
 {% if 'private_net' not in hostvars[node] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
