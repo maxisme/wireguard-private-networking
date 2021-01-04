@@ -17,7 +17,6 @@
 
 - name: Install wireguard (apt)
   apt:
-    update_cache: yes
     state: present
     name: wireguard
   when:
