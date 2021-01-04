@@ -18,7 +18,7 @@ $ ansible-galaxy install maxisme.wireguard_private_networking
 
 ## Setup
 
-Install this role, assign a `wg_ip` variable to every host that should be part of the network and run the role. Plese make sure to allow the VPN port (default is 5888) in your firewall. Here is a small example configuration:
+Install this role, assign a `wg_num` variable to every host that should be part of the network and run the role. Plese make sure to allow the VPN port (default is 5888) in your firewall. Here is a small example configuration:
 
 ```yaml
 # inventory host file
@@ -26,9 +26,9 @@ Install this role, assign a `wg_ip` variable to every host that should be part o
 wireguard:
   hosts:
     1.1.1.1:
-      wg_ip: 10.1.0.1
+      wg_num: 10.1.0.1
     2.2.2.2:
-      wg_ip: 10.1.0.2
+      wg_num: 10.1.0.2
 
 ```
 
@@ -48,6 +48,6 @@ add additional peers:
 ```
 vars:
     wireguard_additional_peers:
-      - wg_ip: 10.2.3.4
+      - wg_num: 10.2.3.4
         key: your_wireguard_public_key
 ```

@@ -1,6 +1,6 @@
 {% set comma = joiner(",") %}
 {% for node in play_hosts -%}
 {% if inventory_hostname != hostvars[node]['inventory_hostname'] %}
-{% if 'private_net' in hostvars[node] %}{{ comma() }}{{ hostvars[node].wg_ip }}/32{% endif %}
+{% if 'private_net' in hostvars[node] %}{{ comma() }}{{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{% endif %}
 {% endif %}
 {%- endfor %}

@@ -12,3 +12,5 @@ debian_pin_packages: true
 wireguard_additional_peers: false
 wireguard_post_up: false
 wireguard_post_down: false
+
+wireguard_base_host: 10.1.0.

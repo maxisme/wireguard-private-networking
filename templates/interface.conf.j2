@@ -1,5 +1,5 @@
 [Interface]
-Address = {{ wg_ip }}/32
+Address = {{ wireguard_base_host }}{{ wg_num }}/32
 PrivateKey = {{ private.content | b64decode | trim }}
 {% if private_net is not defined %}
 ListenPort = {{ wireguard_port }}
@@ -11,7 +11,7 @@ ListenPort = {{ wireguard_port }}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
 {% set comma = joiner(",") %}
-AllowedIPs = {{ hostvars[node].wg_ip }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ node.wg_ip }}/32{%- endfor %}{% endif %}{% endif %}
+AllowedIPs = {{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ wireguard_base_host }}{{ node.wg_num }}/32{%- endfor %}{% endif %}{% endif %}
 
 {% if 'private_net' not in hostvars[node] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
@@ -27,7 +27,7 @@ PersistentKeepalive = {{ PersistentKeepalive }}
 {% for node in wireguard_additional_peers %}
 [Peer]
 PublicKey = {{ node.key }}
-AllowedIPs = {{ node.wg_ip }}
+AllowedIPs = {{ wireguard_base_host }}{{ node.wg_num }}/32
 PersistentKeepalive = {{ PersistentKeepalive }}
 
 {% endfor %}
