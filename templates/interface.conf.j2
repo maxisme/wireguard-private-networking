@@ -13,7 +13,7 @@ PostDown = iptables -D FORWARD -o %i -j ACCEPT
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
 {% set comma = joiner(",") %}
-AllowedIPs = {{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ wireguard_base_host }}{{ node.wg_num }}/32{%- endfor %}{% endif %}{% endif %}
+AllowedIPs = {{ wireguard_base_host }}{{ hostvars[node].wg_num }}/32{%- if 'wg_router' in hostvars[node] -%}{%- if private_net is defined -%}{% if private_ips is defined %},{{ private_ips }}{% endif %}{% if wireguard_additional_peers %},{% for node in wireguard_additional_peers -%}{{ comma() }}{{ wireguard_base_host }}{{ node.wg_num }}/32{%- endfor %}{% endif %}{% endif %}{% endif %}
 
 {% if 'private_net' not in hostvars[node] %}
 Endpoint = {{ hostvars[node]['ansible_host'] }}:{{ wireguard_port }}
@@ -24,7 +24,7 @@ PersistentKeepalive = {{ PersistentKeepalive }}
 
 {% endfor %}
 
-{% if wg_router is defined %}
+{%- if private_net is not defined -%}
 {% if wireguard_additional_peers %}
 {% for node in wireguard_additional_peers %}
 [Peer]

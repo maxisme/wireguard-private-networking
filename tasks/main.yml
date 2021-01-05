@@ -179,6 +179,7 @@
 - name: Run script to verify wireguard connections
   command: sh /tmp/ping-test.sh
   remote_user: root
+  ignore_errors: yes
 
 - name: Run script to verify wireguard again
   command: sh /tmp/ping-test.sh
