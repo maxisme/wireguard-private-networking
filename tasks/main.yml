@@ -159,12 +159,6 @@
     name: "wg-quick@{{ wireguard_network_name }}"
     state: started
 
-- name: Restart wg-quick service
-  service:
-    name: "wg-quick@{{ wireguard_network_name }}"
-    state: restarted
-  ignore_errors: yes
-
 - name: Enable port forwarding
   ansible.posix.sysctl:
     name: "net.ipv4.conf.{{ wireguard_network_name }}.forwarding"
@@ -183,5 +177,9 @@
     mode: "u=rw,g=r,o="
 
 - name: Run script to verify wireguard connections
+  command: sh /tmp/ping-test.sh
+  remote_user: root
+
+- name: Run script to verify wireguard again
   command: sh /tmp/ping-test.sh
   remote_user: root
